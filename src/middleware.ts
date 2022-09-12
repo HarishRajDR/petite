@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
   const link = await fetch(`${req.nextUrl.origin}/api/get-url/${surl}`);
 
   if (link.status === 404) {
-    return NextResponse.redirect(req.nextUrl.origin);
+    return;
   }
 
   const data = await link.json();
