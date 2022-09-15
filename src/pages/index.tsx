@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { ButtonCopy } from "./components/ButtonCopy";
+import { ButtonCopy } from "../../components/ButtonCopy";
 import { TextInput, Group, Button, Title, ActionIcon } from "@mantine/core";
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
