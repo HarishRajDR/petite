@@ -1,8 +1,13 @@
 import { Button, Tooltip } from "@mantine/core";
 import { useClipboard } from "@mantine/hooks";
 import { IconCopy, IconCheck } from "@tabler/icons";
+import { PropsWithChildren } from "react";
 
-export function ButtonCopy() {
+export interface Props {
+  slink: string;
+}
+
+export function ButtonCopy(props: PropsWithChildren<Props>) {
   const clipboard = useClipboard();
   return (
     <Tooltip
@@ -30,9 +35,7 @@ export function ButtonCopy() {
           root: { paddingRight: 14, height: 48 },
           rightIcon: { marginLeft: 22 },
         }}
-        onClick={() =>
-          clipboard.copy("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-        }
+        onClick={() => clipboard.copy("peti.te/" + props.slink)}
       >
         Copy link to clipboard
       </Button>

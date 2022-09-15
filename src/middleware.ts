@@ -10,7 +10,6 @@ export async function middleware(req: NextRequest) {
   }
 
   const data = await link.json();
-  console.log("Actual URL from prisma" + data.url);
 
   if (data?.url) {
     return NextResponse.redirect(data.url);
