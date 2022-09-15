@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
-  if (req.nextUrl.pathname.startsWith("/api/get-url/:surl")) {
-    console.log("returning early");
-    return;
-  }
-
   const surl = req.nextUrl.pathname.split("/").pop();
 
   const link = await fetch(`${req.nextUrl.origin}/api/get-url/${surl}`);
@@ -21,3 +16,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(data.url);
   }
 }
+
+export const config = {
+  matchers: `/:surl`,
+};
