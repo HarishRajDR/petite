@@ -83,7 +83,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Petite</title>
         <meta name="description" content="URL Shortner" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="src\public\favicon.ico" />
       </Head>
 
       <div className={styles.main}>
