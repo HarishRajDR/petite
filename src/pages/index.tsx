@@ -4,7 +4,7 @@ import styles from "../styles/Home.module.css";
 import { ButtonCopy } from "../components/ButtonCopy";
 import { TextInput, Group, Button, Title, ActionIcon } from "@mantine/core";
 import { useState } from "react";
-import { showNotification } from "@mantine/notifications";
+import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
 import { nanoid } from "nanoid";
 
@@ -46,13 +46,20 @@ const Home: NextPage = () => {
   const shortenLink = async () => {
     if (link.match(regexURL)) {
       setURLInvalid(true);
-      console.log();
+      showNotification({
+        id: "Notification",
+        loading: true,
+        message: "URL is being Generated",
+        autoClose: false,
+        disallowClose: false,
+      });
       const data = await fetch(
         `/api/add-url/add?link=${link}&surl=${slug}`
       ).then((res) => res.json());
 
       if (data.error) {
-        showNotification({
+        updateNotification({
+          id: "Notification",
           title: "Invalid Slug",
           message: "Slug already exist",
           color: "red",
@@ -61,11 +68,13 @@ const Home: NextPage = () => {
         setslugExist(true);
       } else {
         setShort(data.surl);
-        showNotification({
+        updateNotification({
+          id: "Notification",
           title: "URL Generated",
           message: "The Short URL has been generated",
           color: "green",
           icon: <IconCheck />,
+          autoClose: 3000,
         });
         setslugExist(false);
       }
@@ -124,7 +133,7 @@ const Home: NextPage = () => {
           </Button>
         </Group>
 
-        <Title order={1}>{"petite-azure.vercel.app/" + short}</Title>
+        <Title order={2}>{"petite-azure.vercel.app/" + short}</Title>
 
         <ButtonCopy slink={short} />
       </div>
