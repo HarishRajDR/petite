@@ -8,6 +8,8 @@ import { showNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
 import { nanoid } from "nanoid";
 
+import favicon from "../public/flash.png";
+
 const Home: NextPage = () => {
   const [link, setLink] = useState("");
   const [urlinvalid, setURLInvalid] = useState(true);
@@ -82,8 +84,8 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>Petite</title>
-        <meta name="description" content="URL Shortner" />
-        <link rel="icon" href="src\public\favicon.ico" />
+        <meta name="description" content="Free URL Shortner" />
+        <link rel="icon" type="image/png" href={favicon.src} />
       </Head>
 
       <div className={styles.main}>
