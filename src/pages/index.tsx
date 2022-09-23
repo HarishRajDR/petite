@@ -3,20 +3,35 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { ButtonCopy } from "../components/ButtonCopy";
 import { TextInput, Group, Button, Title, ActionIcon } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
 import { nanoid } from "nanoid";
 
 import favicon from "../public/flash.png";
+import Loader from "../components/Loader";
+import router from "next/router";
 
 const Home: NextPage = () => {
   const [link, setLink] = useState("");
   const [urlinvalid, setURLInvalid] = useState(true);
   const [slug, setSlug] = useState("");
   const [short, setShort] = useState("");
-
   const [slugExist, setslugExist] = useState(false);
+
+  const [pageLoading, setPageLoading] = useState(false);
+
+  useEffect(() => {
+    const handleStart = () => {
+      setPageLoading(true);
+    };
+    const handleComplete = () => {
+      setPageLoading(false);
+    };
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+  }, [router]);
 
   const generateRandomSlug = () => {
     const data = nanoid(10);
@@ -96,6 +111,13 @@ const Home: NextPage = () => {
         <meta name="description" content="Free URL Shortner" />
         <link rel="icon" type="image/png" href={favicon.src} />
       </Head>
+
+      <div
+        className={styles.loader}
+        style={{ display: pageLoading ? "flex" : "none" }}
+      >
+        <Loader />
+      </div>
 
       <div className={styles.main}>
         <Title order={1} style={{ fontSize: "7rem" }}>
