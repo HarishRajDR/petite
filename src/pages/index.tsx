@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { ButtonCopy } from "../../components/ButtonCopy";
+import { ButtonCopy } from "../components/ButtonCopy";
 import { TextInput, Group, Button, Title, ActionIcon } from "@mantine/core";
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
-import { generateSlug } from "random-word-slugs";
+import { nanoid } from "nanoid";
 
 const Home: NextPage = () => {
   const [link, setLink] = useState("");
@@ -14,16 +14,12 @@ const Home: NextPage = () => {
   const [slug, setSlug] = useState("");
   const [short, setShort] = useState("");
 
+  const [slugExist, setslugExist] = useState(false);
+
   const generateRandomSlug = () => {
-    const data = generateSlug(2, {
-      format: "camel",
-      partsOfSpeech: ["adjective", "noun"],
-      categories: {
-        noun: ["technology", "science", "food"],
-      },
-    });
+    const data = nanoid(10);
     if (data) {
-      setSlug(data.toLowerCase());
+      setSlug(data);
     }
   };
 
@@ -52,13 +48,25 @@ const Home: NextPage = () => {
       const data = await fetch(
         `/api/add-url/add?link=${link}&surl=${slug}`
       ).then((res) => res.json());
-      setShort(data.surl);
-      showNotification({
-        title: "URL Generated",
-        message: "The Short URL has been generated",
-        color: "green",
-        icon: <IconCheck />,
-      });
+
+      if (data.error) {
+        showNotification({
+          title: "Invalid Slug",
+          message: "Slug already exist",
+          color: "red",
+          icon: <IconX />,
+        });
+        setslugExist(true);
+      } else {
+        setShort(data.surl);
+        showNotification({
+          title: "URL Generated",
+          message: "The Short URL has been generated",
+          color: "green",
+          icon: <IconCheck />,
+        });
+        setslugExist(false);
+      }
     } else {
       setURLInvalid(false);
       showNotification({
@@ -95,7 +103,7 @@ const Home: NextPage = () => {
 
         <Group>
           <TextInput
-            placeholder="Enter Phrase"
+            placeholder="Enter Slug"
             size="lg"
             value={slug}
             onChange={(event) => {
@@ -103,17 +111,18 @@ const Home: NextPage = () => {
               event.preventDefault();
             }}
             rightSection={clearButton}
+            error={slugExist}
           />
 
           <Button size="lg" variant="light" onClick={generateRandomSlug}>
-            Random Phrase
+            Random
           </Button>
           <Button size="lg" onClick={shortenLink}>
             Shorten
           </Button>
         </Group>
 
-        <Title order={1}>{"peti.te/" + short}</Title>
+        <Title order={1}>{"pet.ite/" + short}</Title>
 
         <ButtonCopy slink={short} />
       </div>

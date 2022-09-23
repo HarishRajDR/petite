@@ -3,9 +3,9 @@ import { prisma } from "../../../db/client";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const link = req.query["link"];
-  const surl = req.query["surl"];
+  const slug = req.query["surl"];
 
-  if (!(surl && link) || typeof link !== "string" || typeof surl !== "string") {
+  if (!(slug && link) || typeof link !== "string" || typeof slug !== "string") {
     res.statusCode = 404;
 
     res.send(JSON.stringify({ message: "Invalid Request" }));
@@ -13,13 +13,36 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
+  //Check for availability of slug
+  const usedSlugs = await prisma?.shortLink.findMany({
+    where: {
+      surl: {
+        equals: slug,
+      },
+    },
+  });
+
+  console.log(usedSlugs);
+
+  if (usedSlugs.length) {
+    res.statusCode = 404;
+    res.send(
+      JSON.stringify({
+        error: true,
+      })
+    );
+    return;
+  }
+
+  console.log("I'm here!");
+
   //Adding the link to the database
   const addData = await prisma?.shortLink.create({
     data: {
       url: link,
-      surl: surl,
+      surl: slug,
     },
   });
 
-  return res.status(200).json(addData);
+  return res.status(201).json({ ...addData, error: false });
 };
