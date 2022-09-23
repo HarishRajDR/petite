@@ -124,7 +124,7 @@ const Home: NextPage = () => {
           </Button>
         </Group>
 
-        <Title order={1}>{"pet.ite/" + short}</Title>
+        <Title order={1}>{"petite-azure.vercel.app/" + short}</Title>
 
         <ButtonCopy slink={short} />
       </div>

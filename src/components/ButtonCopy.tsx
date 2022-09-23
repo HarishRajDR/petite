@@ -35,7 +35,9 @@ export function ButtonCopy(props: PropsWithChildren<Props>) {
           root: { paddingRight: 14, height: 48 },
           rightIcon: { marginLeft: 22 },
         }}
-        onClick={() => clipboard.copy("peti.te/" + props.slink)}
+        onClick={() =>
+          clipboard.copy("https://petite-azure.vercel.app/" + props.slink)
+        }
       >
         Copy link to clipboard
       </Button>
