@@ -2,20 +2,19 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model ShortLink {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
-  url  String @db.VarChar(1000)
+  url  String
   surl String @unique
 }
