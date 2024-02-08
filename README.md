@@ -1,5 +1,7 @@
 # Petite
 
+> ⚠️ This project is currently offline due to my database plan ending. Will be up once the database is sorted. 
+
 ## Overview
 
 A URL shortener, which takes a URL and a keyword and gives a shortened URL
