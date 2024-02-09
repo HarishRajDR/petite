@@ -22,8 +22,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
-  console.log(usedSlugs);
-
   if (usedSlugs.length) {
     res.statusCode = 404;
     res.send(
@@ -33,8 +31,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     );
     return;
   }
-
-  console.log("I'm here!");
 
   //Adding the link to the database
   const addData = await prisma?.shortLink.create({
