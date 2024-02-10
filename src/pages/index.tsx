@@ -132,7 +132,7 @@ const Home: NextPage = () => {
           </Button>
         </Group>
 
-        <Title order={2}>{"petite-azure.vercel.app/" + short}</Title>
+        <Title order={2}>{"petite-beta.vercel.app/" + short}</Title>
 
         <ButtonCopy slink={short} />
       </div>
